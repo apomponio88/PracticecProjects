@@ -52,17 +52,22 @@ function reducer(state, {type, payload}){
       case ACTIONS.CLEAR:
         return {}
       case ACTIONS.EVALUATE:
-        if(state.operation == null || state.currentOperand == null || state.previousOperand == null) {
-          return {
-            ...state,
-            overwrite: true,
-            previousOperand: null,
-            operation: null,
-            currentOperand: evaluate(state),
+        if(state.operation == null ||
+          state.currentOperand == null ||
+          state.previousOperand == null
+          ) {
+          return state
         }  
+        return {
+          ...state,
+          previousOperand: null,
+          currentOperand: evaluate(state),
+          operation: null,
+
+        }
   }
 }
-}
+
 
 function evaluate({ currentOperand, previousOperand, operation}) {
   const prev = parseFloat(previousOperand)
@@ -84,7 +89,7 @@ function evaluate({ currentOperand, previousOperand, operation}) {
     computation = prev * current
       break
   }
-  return computation.toString;
+  return computation.toString();
 }
 
 
